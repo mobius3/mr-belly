@@ -2,12 +2,15 @@ import { createBrowserRouter } from 'react-router-dom'
 import Index from '@/features/index/Index'
 import invoicesRoutes from '@/features/invoices/routes'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Index />,
-    children: [...invoicesRoutes],
-  },
-])
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Index />,
+      children: [...invoicesRoutes],
+    },
+  ],
+  { basename: 'mr-belly' }
+)
 
 export default router
