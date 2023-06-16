@@ -10,7 +10,7 @@ const router = createBrowserRouter(
       children: [...invoicesRoutes],
     },
   ],
-  { basename: 'mr-belly' }
+  { basename: '/mr-belly/' }
 )
 
 export default router
