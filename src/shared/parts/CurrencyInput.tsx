@@ -1,19 +1,15 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { ChangeEvent, ChangeEventHandler } from 'react'
-import {
-  NumericFormat,
-  OnValueChange as CurrencyOnValueChange,
-} from 'react-number-format'
-import ValueChangeEventHandler, {
-  makeValueChangeEmitter,
-} from './ValueChangeEventHandler'
+import { NumericFormat } from 'react-number-format'
+import ValueChangeEventHandler from './ValueChangeEventHandler'
 import { NumberFormatValues } from 'react-number-format/types/types'
-import { currencyData } from '../currency'
+import { localeNumberFormat } from '@/shared/locale'
+import { CurrencyId, currencySymbols, LocaleId } from '@/shared/locale-data'
 
 export type InputProps = {
   id?: any
   label: string
-  currency: string
+  currency: CurrencyId
+  locale: LocaleId
   name: string
   value: any
 
@@ -26,30 +22,20 @@ export type InputProps = {
 }
 
 const CurrencyInput = (props: InputProps) => {
-  const {
-    extraInputClassName,
-    currency,
-    hideLabel,
-    readonly,
-    onValueChange,
-    value,
-    extraClassName,
-    name,
-    id,
-    label,
-  } = props
+  const { extraInputClassName, currency, hideLabel, readonly, onValueChange, value, extraClassName, name, id, label, locale } =
+    props
 
   const unwrapCurrencyValueAndCallHandler = (change: NumberFormatValues) =>
     onValueChange && onValueChange({ name, value: change.floatValue })
 
-  const currencyInfo = currencyData[currency]
+  const currencyInfo = localeNumberFormat(locale)
+
+  console.log(currencyInfo)
+  if (!currencyInfo) {
+  }
 
   return (
-    <label
-      className={`${
-        extraClassName || ''
-      } inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}
-    >
+    <label className={`${extraClassName || ''} inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}>
       {hideLabel ? '' : label}
       <NumericFormat
         id={id || nanoid()}
@@ -57,7 +43,7 @@ const CurrencyInput = (props: InputProps) => {
         readOnly={readonly}
         thousandSeparator={currencyInfo.thousands}
         decimalSeparator={currencyInfo.decimal}
-        prefix={currencyInfo.symbol + ' '}
+        prefix={currencySymbols[currency] + ' '}
         decimalScale={currencyInfo.maximumFractionDigits}
         fixedDecimalScale={readonly}
         className={`block h-10 w-full

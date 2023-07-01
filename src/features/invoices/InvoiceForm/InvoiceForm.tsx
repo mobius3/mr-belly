@@ -8,7 +8,7 @@ import formatISO from 'date-fns/formatISO'
 import Select from '@/shared/parts/Select'
 import TextArea from '@/shared/parts/TextArea'
 import CurrencyInput from '@/shared/parts/CurrencyInput'
-import { currencyData, currencyList, preferredCurrency } from '@/shared/currency'
+import { preferredCurrency } from '@/shared/currency'
 import NumericInput from '@/shared/parts/NumericInput'
 import Button from '@/shared/parts/Button'
 import { faSave } from '@fortawesome/free-regular-svg-icons'
@@ -20,13 +20,16 @@ import styles from '@/shared/styles'
 import { useNavigate, useParams } from 'react-router-dom'
 import InvoiceNotFound from '@/features/invoices/InvoiceNotFound'
 import { localeId } from '@/shared/locale'
+import { CurrencyId, currencyIds, currencySymbols, LocaleId, localeIds, localeNames } from '@/shared/locale-data'
 
 const defaultGeneralInformationFormValues = () => ({
   date: formatISO(new Date(), { representation: 'date' }),
   due: formatISO(new Date(), { representation: 'date' }),
-  currency: preferredCurrency,
-  numberLocale: localeId,
+  currency: preferredCurrency as CurrencyId,
+  numberLocale: localeId as LocaleId,
   number: '0001',
+  signedBy: undefined as string | undefined,
+  includeSigningFields: 'none' as InvoiceData['includeSigningFields'],
 })
 
 type GeneralInformationFormValues = ReturnType<typeof defaultGeneralInformationFormValues>
@@ -59,7 +62,9 @@ const produceInitialFormValues = (invoiceData?: InvoiceData): FormValues => {
       due: invoiceData.due,
       currency: invoiceData.currency,
       number: invoiceData.number,
-      numberLocale: invoiceData.numberLocale,
+      numberLocale: invoiceData.numberLocale || localeId,
+      signedBy: invoiceData.signedBy,
+      includeSigningFields: invoiceData.includeSigningFields || 'none',
     },
     paymentInformation: {
       tax: invoiceData.tax,
@@ -100,7 +105,12 @@ const InvoiceForm = () => {
     return (
       <div key={index} className={'mb-10 flex gap-3 sm:mb-0'}>
         <div className={'flex-grow'}>
-          <InvoiceItemForm values={item} currency={generalInformation.currency} onChange={updateItemValue} />
+          <InvoiceItemForm
+            values={item}
+            currency={generalInformation.currency}
+            locale={generalInformation.numberLocale}
+            onChange={updateItemValue}
+          />
         </div>
         <div className={'flex flex-none flex-col justify-center'}>
           <button
@@ -126,10 +136,18 @@ const InvoiceForm = () => {
   const setGeneralInformationField = stateFieldSetter(generalInformation, setGeneralInformation)
   const setPaymentInformationField = stateFieldSetter(paymentInformation, setPaymentInformation)
 
-  const currencyOptions = currencyList.map((currency) => (
+  const currencyOptions = currencyIds.map((currency) => (
     <option value={currency}>
       <>
-        {currency} ({currencyData[currency].symbol})
+        {currency} ({currencySymbols[currency]})
+      </>
+    </option>
+  ))
+
+  const numberLocaleOptions = localeIds.map((locale) => (
+    <option value={locale}>
+      <>
+        {localeNames[locale]} ({locale})
       </>
     </option>
   ))
@@ -171,6 +189,7 @@ const InvoiceForm = () => {
             name={'number'}
             value={generalInformation.number}
             onValueChange={(e) => setGeneralInformationField('number', e.value)}
+            extraClassName={'md:w-1/6'}
           />
           <Input
             label={'Date'}
@@ -178,7 +197,8 @@ const InvoiceForm = () => {
             name={'date'}
             value={generalInformation.date}
             onValueChange={(e) => setGeneralInformationField('date', e.value)}
-            extraClassName={'md:pr-3'}
+            extraClassName={'md:w-1/6'}
+            // extraClassName={'md:pr-3'}
           />
           <Input
             label={'Due'}
@@ -186,15 +206,38 @@ const InvoiceForm = () => {
             name={'due'}
             value={generalInformation.due}
             onValueChange={(e) => setGeneralInformationField('due', e.value)}
-            extraClassName={'md:pl-3'}
+            extraClassName={'md:w-1/6'}
+
+            // extraClassName={'md:pl-3'}
           />
           <Select
             label={'Currency'}
             name={'currency'}
             value={generalInformation.currency}
             onValueChange={(e) => setGeneralInformationField('currency', e.value)}
+            extraClassName={'md:w-1/6'}
           >
             {...currencyOptions}
+          </Select>
+          <Select
+            label={'Number format'}
+            name={'number-format'}
+            value={generalInformation.numberLocale}
+            onValueChange={(e) => setGeneralInformationField('numberLocale', e.value)}
+            extraClassName={'md:w-1/6'}
+          >
+            {...numberLocaleOptions}
+          </Select>
+          <Select
+            label={'Include signature field'}
+            name={'include-signature-field'}
+            value={generalInformation.includeSigningFields}
+            onValueChange={(e) => setGeneralInformationField('includeSigningFields', e.value)}
+            extraClassName={'md:w-1/6'}
+          >
+            <option value={'noigned-byne'}>None</option>
+            <option value={'signed-by'}>Signed by</option>
+            <option value={'sgned-by-with-signature'}>Signed by with signature</option>
           </Select>
         </div>
       </div>
@@ -252,7 +295,14 @@ const InvoiceForm = () => {
           </div>
 
           <div className={'flex gap-3 md:block md:w-1/6 md:flex-none'}>
-            <CurrencyInput label={'Subtotal'} currency={generalInformation.currency} name={'total'} value={subtotal} readonly />
+            <CurrencyInput
+              label={'Subtotal'}
+              currency={generalInformation.currency}
+              name={'total'}
+              value={subtotal}
+              locale={generalInformation.numberLocale}
+              readonly
+            />
             <CurrencyInput
               label={'Discount'}
               currency={generalInformation.currency}
@@ -260,6 +310,7 @@ const InvoiceForm = () => {
               value={paymentInformation.discount}
               onValueChange={(e) => setPaymentInformationField('discount', e.value)}
               extraInputClassName={'bg-red-100 focus:border-red-300 focus:bg-red-200'}
+              locale={generalInformation.numberLocale}
             />
             <NumericInput
               label={'Tax'}
@@ -275,13 +326,19 @@ const InvoiceForm = () => {
               value={total}
               readonly
               extraInputClassName={'bg-green-100 read-only:focus:bg-green-100'}
+              locale={generalInformation.numberLocale}
             />
           </div>
         </div>
       </div>
 
       <div className={'mb-5'}>
-        {/*<h1 className={'font-bold py-3 mx-3 border-b border-solid border-gray-300'}>Summary:</h1>*/}
+        <div className={'justify-center gap-3 p-3 md:flex'}>
+          <Input label={'Signed by'} name={'signed-by'} type={'text'} value={generalInformation.signedBy} />
+        </div>
+      </div>
+
+      <div className={'mb-5'}>
         <div className={'flex justify-center gap-3 p-3'}>
           <Button color={'green'} onClick={saveInvoiceClicked} disabled={!valid}>
             <div className={'flex items-center justify-center gap-3'}>

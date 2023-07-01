@@ -1,6 +1,6 @@
 import { InvoiceData } from '@/features/invoices/InvoiceData'
 import { dateFormat } from '@/shared/date'
-import { currencyFormat, numberFormat } from '@/shared/currency'
+import { Formatter } from '@/shared/formatters'
 
 const template = (data: InvoiceData): string => {
   const joinAddress = (entity: InvoiceData['sender'] | InvoiceData['receiver']) => {
@@ -26,7 +26,11 @@ const template = (data: InvoiceData): string => {
       )
       .join('\n')
   }
-  const asCurrency = (value: number) => currencyFormat(value, { currency: data.currency })
+
+  const currencyFormatter = Formatter.currency(data.numberLocale, data.currency)
+  const numberFormatter = Formatter.number(data.numberLocale)
+
+  const asCurrency = (value: number) => currencyFormatter.format(value)
   let discountDiv = ''
   if (data.discount > 0) {
     discountDiv = `
@@ -148,7 +152,7 @@ const template = (data: InvoiceData): string => {
           ${discountDiv}
 
           <div class='flex py-2 font-bold'>
-            <div class='flex-none w-48 flex flex-col justify-center'>Tax (${numberFormat(data.tax)} %)</div>
+            <div class='flex-none w-48 flex flex-col justify-center'>Tax (${numberFormatter.format(data.tax)} %)</div>
             <div class='flex-grow flex flex-col justify-center'></div>
             <div class='flex-none w-10 flex flex-col justify-center'></div>
             <div class='flex-none w-26 flex flex-col justify-center text-right'></div>

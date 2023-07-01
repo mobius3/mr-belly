@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "bake-locales": "node scripts/bake-locales.js",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

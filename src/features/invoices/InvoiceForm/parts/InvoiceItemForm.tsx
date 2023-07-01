@@ -1,11 +1,13 @@
 import Input from '@/shared/parts/Input'
 import { useEffect, useState } from 'react'
 import CurrencyInput from '@/shared/parts/CurrencyInput'
+import { CurrencyId, LocaleId } from '@/shared/locale-data'
 
 export type Props = {
   values: FormValues
   onChange: (values: FormValues) => void
-  currency: string
+  currency: CurrencyId
+  locale: LocaleId
 
   extraClassName?: string
 }
@@ -20,7 +22,7 @@ const emptyValues = {
 type FormValues = typeof emptyValues
 
 const InvoiceItemForm = (props: Props) => {
-  const { values, onChange, extraClassName, currency } = props
+  const { values, onChange, extraClassName, currency, locale } = props
   const [width, setWidth] = useState(window.innerWidth)
   useEffect(() => {
     window.addEventListener('resize', () => setWidth(window.innerWidth))
@@ -60,6 +62,7 @@ const InvoiceItemForm = (props: Props) => {
         onValueChange={(e) => setFormValue('price', e.value)}
         extraClassName={'flex-none sm:w-40'}
         hideLabel={hideLabels}
+        locale={locale}
       />
       <Input
         label={'Quantity'}

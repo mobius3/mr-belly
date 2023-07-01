@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { currencyList } from '@/shared/currency'
 import { isValid, parseISO } from 'date-fns'
+import { currencyIds, localeIds } from '@/shared/locale-data'
 
 const InvoiceItemSchema = z.object({
   quantity: z.number().positive(),
@@ -25,17 +25,19 @@ const InvoiceDataSchema = z.object({
   id: z.string().nonempty(),
   date: z.string().refine((value) => isValid(parseISO(value)), 'Invalid date string'),
   number: z.string().nonempty(),
-  numberLocale: z.string().nonempty(),
+  numberLocale: z.enum(localeIds),
   total: z.number().positive(),
   notes: z.string(),
   due: z.string().refine((value) => isValid(parseISO(value)), 'Invalid date string'),
   subtotal: z.number().positive(),
   discount: z.number().gte(0),
-  currency: z.string().refine((v) => currencyList.includes(v), 'Currency not supported'),
+  currency: z.enum(currencyIds),
   tax: z.number().gte(0).lte(100),
   items: z.array(InvoiceItemSchema).min(1),
   sender: InvoiceCompanySchema,
   receiver: InvoiceCompanySchema,
+  includeSigningFields: z.enum(['none', 'signed-by', 'signed-by-with-signature']).default('none'),
+  signedBy: z.string().optional(),
 })
 
 type InvoiceData = z.infer<typeof InvoiceDataSchema>

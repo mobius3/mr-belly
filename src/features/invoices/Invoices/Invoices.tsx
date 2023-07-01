@@ -6,7 +6,7 @@ import Button from '@/shared/parts/Button'
 import styles from '@/shared/styles'
 import { useNavigate } from 'react-router-dom'
 import { faFaceSadTear } from '@fortawesome/free-regular-svg-icons'
-import { currencyFormat } from '@/shared/currency'
+import { Formatter } from '@/shared/formatters'
 import { dateFormat } from '@/shared/date'
 import LinkButton from '@/shared/parts/LinkButton'
 import mrBellyInvoiceTemplate from '@/features/invoices/templates/mr-belly-invoice-template'
@@ -25,6 +25,8 @@ const InvoiceElement = (props: { invoice: InvoiceData }) => {
     w.document.write(data)
   }
 
+  const currencyFormatter = Formatter.currency(invoice.numberLocale, invoice.currency)
+
   return (
     <li key={invoice.id} className={'h-30 flex flex-col rounded border border-gray-200 p-3 sm:flex-row'}>
       <div className={'flex flex-grow flex-col content-between gap-3'}>
@@ -35,8 +37,7 @@ const InvoiceElement = (props: { invoice: InvoiceData }) => {
         </div>
         <ul className={'w-40 text-sm'}>
           <li>
-            <span className={'inline-block w-10 font-semibold'}>Total:</span>{' '}
-            {currencyFormat(invoice.total, { currency: invoice.currency })}
+            <span className={'inline-block w-10 font-semibold'}>Total:</span> {currencyFormatter.format(invoice.total)}
           </li>
           <li>
             <span className={'inline-block w-10 font-semibold'}>Due:</span> {dateFormat(invoice.due)}
