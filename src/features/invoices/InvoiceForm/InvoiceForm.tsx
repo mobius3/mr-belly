@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import InvoiceCompanyForm, { emptyCompanyFormValues, InvoiceCompanyFormValues } from './parts/InvoiceCompanyForm'
 import InvoiceItemForm, { emptyItemFormValues, InvoiceItemFormValues } from './parts/InvoiceItemForm'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -77,7 +77,7 @@ const produceInitialFormValues = (invoiceData?: InvoiceData): FormValues => {
 const InvoiceForm = () => {
   const { invoiceId } = useParams()
   const savedInvoiceData = useAppSelector((state) => (invoiceId ? state.invoices[invoiceId] : undefined))
-  const initialFormValues = produceInitialFormValues(savedInvoiceData)
+  const initialFormValues = useMemo(() => produceInitialFormValues(savedInvoiceData), [savedInvoiceData])
   const [senderFormValues, setSenderFormValues] = useState<InvoiceCompanyFormValues>(initialFormValues.senderFormValues)
   const [receiverFormValues, setReceiverFormValues] = useState<InvoiceCompanyFormValues>(initialFormValues.receiverFormValues)
   const [items, setItems] = useState<InvoiceItemFormValues[]>(initialFormValues.items)
@@ -332,11 +332,13 @@ const InvoiceForm = () => {
         </div>
       </div>
 
-      <div className={'mb-5'}>
-        <div className={'justify-center gap-3 p-3 md:flex'}>
-          <Input label={'Signed by'} name={'signed-by'} type={'text'} value={generalInformation.signedBy} />
+      {generalInformation.includeSigningFields != 'none' && (
+        <div className={'mb-5'}>
+          <div className={'justify-center gap-3 p-3 md:flex'}>
+            <Input label={'Signed by'} name={'signed-by'} type={'text'} value={generalInformation.signedBy} />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className={'mb-5'}>
         <div className={'flex justify-center gap-3 p-3'}>

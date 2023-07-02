@@ -4,6 +4,7 @@ import ValueChangeEventHandler from './ValueChangeEventHandler'
 import { NumberFormatValues } from 'react-number-format/types/types'
 import { localeNumberFormat } from '@/shared/locale'
 import { CurrencyId, currencySymbols, LocaleId } from '@/shared/locale-data'
+import { useMemo } from 'react'
 
 export type InputProps = {
   id?: any
@@ -28,11 +29,7 @@ const CurrencyInput = (props: InputProps) => {
   const unwrapCurrencyValueAndCallHandler = (change: NumberFormatValues) =>
     onValueChange && onValueChange({ name, value: change.floatValue })
 
-  const currencyInfo = localeNumberFormat(locale)
-
-  console.log(currencyInfo)
-  if (!currencyInfo) {
-  }
+  const currencyInfo = useMemo(() => localeNumberFormat(locale), [locale])
 
   return (
     <label className={`${extraClassName || ''} inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}>
