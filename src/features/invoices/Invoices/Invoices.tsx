@@ -3,20 +3,18 @@ import { InvoiceData } from '@/features/invoices/InvoiceData'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAdd, faEdit, faPrint } from '@fortawesome/free-solid-svg-icons'
 import Button from '@/shared/parts/Button'
-import styles from '@/shared/styles'
 import { useNavigate } from 'react-router-dom'
 import { faFaceSadTear } from '@fortawesome/free-regular-svg-icons'
 import { Formatter } from '@/shared/formatters'
 import { dateFormat } from '@/shared/date'
 import LinkButton from '@/shared/parts/LinkButton'
 import mrBellyInvoiceTemplate from '@/features/invoices/templates/mr-belly-invoice-template'
+import PageHeader from '@/shared/parts/PageHeader'
 
 const InvoiceElement = (props: { invoice: InvoiceData }) => {
   const { invoice } = props
-  const navigate = useNavigate()
 
   const editUrl = `/invoices/${invoice.id}/edit`
-  const renderUrl = `/invoices/${invoice.id}/render`
 
   const renderInvoiceClicked = async () => {
     const data = mrBellyInvoiceTemplate(invoice)
@@ -88,12 +86,15 @@ const Invoices = () => {
 
   return (
     <div className={'m-10 flex flex-col px-4'}>
-      <div className={`flex items-center justify-center ${styles.header}`}>
-        <h1 className={`flex-grow`}>Invoices</h1>
-        <Button className={'flex h-6 w-6 items-center justify-center rounded-full'} onClick={() => navigate('/invoices/new')}>
-          <FontAwesomeIcon icon={faAdd} />
-        </Button>
-      </div>
+      <PageHeader
+        right={[
+          <Button className={'flex h-6 w-6 items-center justify-center rounded-full'} onClick={() => navigate('/invoices/new')}>
+            <FontAwesomeIcon icon={faAdd} />
+          </Button>,
+        ]}
+      >
+        Invoices
+      </PageHeader>
       <div className={'mx-3 block flex-grow py-3 text-sm font-medium'}>{invoiceBlock}</div>
     </div>
   )

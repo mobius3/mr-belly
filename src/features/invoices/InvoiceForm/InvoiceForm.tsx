@@ -16,11 +16,11 @@ import { InvoiceData, InvoiceDataSchema } from '@/features/invoices/InvoiceData'
 import { nanoid } from '@reduxjs/toolkit'
 import { invoiceSaved } from '@/features/invoices/invoicesSlice'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import styles from '@/shared/styles'
 import { useNavigate, useParams } from 'react-router-dom'
 import InvoiceNotFound from '@/features/invoices/InvoiceNotFound'
 import { localeId } from '@/shared/locale'
 import { CurrencyId, currencyIds, currencySymbols, LocaleId, localeIds, localeNames } from '@/shared/locale-data'
+import PageHeader from '@/shared/parts/PageHeader'
 
 const defaultGeneralInformationFormValues = () => ({
   date: formatISO(new Date(), { representation: 'date' }),
@@ -180,8 +180,9 @@ const InvoiceForm = () => {
 
   return (
     <form className={'m-10 block px-4'}>
+      <PageHeader>Invoice</PageHeader>
       <div className={'mb-5'}>
-        <h1 className={styles.header}>Invoice</h1>
+        {/*<h1 className={styles.header}>Invoice</h1>*/}
         <div className={'gap-3 p-3 md:flex'}>
           <Input
             label={'Number'}
