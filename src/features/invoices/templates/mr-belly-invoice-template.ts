@@ -34,13 +34,14 @@ const template = (data: InvoiceData): string => {
     switch (data.includeSigningFields) {
       case 'signed-by':
         return `
-          <div class="pt-10 flex justify-between w-full gap-10">
-            <div class="flex-1">
+          <div class="pt-10 flex justify-center w-full gap-10">
+            <div class="w-full">
               <h1 class="text-xs text-gray-500">Signed by</h1>
               <div class="mt-3 font-semibold text-sm border-b border-black text-center">
-                &nbsp
+                &nbsp;
               </div>
             </div>
+          </div>
       `
       case 'signed-by-with-signature':
         return `
@@ -48,7 +49,7 @@ const template = (data: InvoiceData): string => {
             <div class="flex-1">
               <h1 class="text-xs text-gray-500">Signed by</h1>
               <div class="mt-3 font-semibold text-sm border-b border-black text-center">
-                &nbsp
+                &nbsp;
               </div>
             </div>
       
