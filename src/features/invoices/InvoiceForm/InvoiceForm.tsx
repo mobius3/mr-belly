@@ -171,6 +171,8 @@ const InvoiceForm = () => {
   const parsed = InvoiceDataSchema.safeParse(invoiceData)
   const valid = parsed.success
 
+  console.log(parsed)
+
   const dispatch = useAppDispatch()
 
   const saveInvoiceClicked = () => {
@@ -238,7 +240,7 @@ const InvoiceForm = () => {
           >
             <option value={'noigned-byne'}>None</option>
             <option value={'signed-by'}>Signed by</option>
-            <option value={'sgned-by-with-signature'}>Signed by with signature</option>
+            <option value={'signed-by-with-signature'}>Signed by with signature</option>
           </Select>
         </div>
       </div>
