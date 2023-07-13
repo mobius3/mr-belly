@@ -49,7 +49,7 @@ const copy = (previous: InvoiceData): InvoiceData => {
     ...previous,
     id: nanoid(),
     number: `Copy of ${previous.number}`,
-    date: formatISO(new Date()),
+    date: formatISO(new Date(), { representation: 'date' }),
   }
 }
 
