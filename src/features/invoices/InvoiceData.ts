@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import { isValid, parseISO } from 'date-fns'
 import { currencyIds, localeIds } from '@/shared/locale-data'
+import { nanoid } from '@reduxjs/toolkit'
+import formatISO from 'date-fns/formatISO'
 
 const InvoiceItemSchema = z.object({
   quantity: z.number().positive(),
@@ -41,4 +43,14 @@ const InvoiceDataSchema = z.object({
 })
 
 type InvoiceData = z.infer<typeof InvoiceDataSchema>
-export { InvoiceDataSchema, type InvoiceData }
+
+const copy = (previous: InvoiceData): InvoiceData => {
+  return {
+    ...previous,
+    id: nanoid(),
+    number: `Copy of ${previous.number}`,
+    date: formatISO(new Date()),
+  }
+}
+
+export { InvoiceDataSchema, type InvoiceData, copy as copyInvoice }

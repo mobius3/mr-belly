@@ -11,8 +11,12 @@ const invoicesSlice = createSlice({
       ...state,
       [action.payload.id]: InvoiceDataSchema.parse(action.payload),
     }),
+    invoiceRemoved: (state, action: PayloadAction<{ id: string }>) => {
+      const { [action.payload.id]: _, ...newState } = state
+      return newState
+    },
   },
 })
 
 export default invoicesSlice.reducer
-export const { invoiceSaved } = invoicesSlice.actions
+export const { invoiceSaved, invoiceRemoved } = invoicesSlice.actions
