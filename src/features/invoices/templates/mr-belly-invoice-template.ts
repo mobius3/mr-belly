@@ -38,7 +38,7 @@ const template = (data: InvoiceData): string => {
             <div class="w-full">
               <h1 class="text-xs text-gray-500">Signed by</h1>
               <div class="mt-3 font-semibold text-sm border-b border-black text-center">
-                &nbsp;
+                ${data.signedBy}
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@ const template = (data: InvoiceData): string => {
             <div class="flex-1">
               <h1 class="text-xs text-gray-500">Signed by</h1>
               <div class="mt-3 font-semibold text-sm border-b border-black text-center">
-                &nbsp;
+                ${data.signedBy}
               </div>
             </div>
       

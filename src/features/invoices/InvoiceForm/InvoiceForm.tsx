@@ -338,7 +338,13 @@ const InvoiceForm = () => {
       {generalInformation.includeSigningFields != 'none' && (
         <div className={'mb-5'}>
           <div className={'justify-center gap-3 p-3 md:flex'}>
-            <Input label={'Signed by'} name={'signed-by'} type={'text'} value={generalInformation.signedBy} />
+            <Input
+              label={'Signed by'}
+              name={'signed-by'}
+              type={'text'}
+              value={generalInformation.signedBy}
+              onValueChange={(e) => setGeneralInformationField('signedBy', e.value)}
+            />
           </div>
         </div>
       )}
