@@ -1,8 +1,6 @@
 import { nanoid } from '@reduxjs/toolkit'
-import React, { ChangeEventHandler } from 'react'
-import ValueChangeEventHandler, {
-  makeValueChangeEmitter,
-} from './ValueChangeEventHandler'
+import React from 'react'
+import ValueChangeEventHandler, { makeValueChangeEmitter } from './ValueChangeEventHandler'
 
 export type SelectProps = {
   id?: any
@@ -15,14 +13,9 @@ export type SelectProps = {
 }
 
 const Select = (props: SelectProps) => {
-  const { children, onValueChange, value, extraClassName, name, id, label } =
-    props
+  const { children, onValueChange, value, extraClassName, name, id, label } = props
   return (
-    <label
-      className={`${
-        extraClassName || ''
-      } inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}
-    >
+    <label className={`${extraClassName || ''} inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}>
       {label}
       <select
         id={id || nanoid()}

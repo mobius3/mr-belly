@@ -1,8 +1,6 @@
 import { nanoid } from '@reduxjs/toolkit'
-import React, { ChangeEventHandler } from 'react'
-import ValueChangeEventHandler, {
-  makeValueChangeEmitter,
-} from './ValueChangeEventHandler'
+import React from 'react'
+import ValueChangeEventHandler, { makeValueChangeEmitter } from './ValueChangeEventHandler'
 
 export type TextAreaProps = {
   id?: any
@@ -17,12 +15,7 @@ const TextArea = (props: TextAreaProps) => {
   const { onValueChange, value, extraClassName, name, id, label } = props
   return (
     <div className={`flex h-full  w-full flex-col pt-1.5 pb-1.5`}>
-      <label
-        htmlFor={name}
-        className={`${
-          extraClassName || ''
-        } inline-block w-full text-xs font-medium`}
-      >
+      <label htmlFor={name} className={`${extraClassName || ''} inline-block w-full text-xs font-medium`}>
         {label}
       </label>
       <textarea

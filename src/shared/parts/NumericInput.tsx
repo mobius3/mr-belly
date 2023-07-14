@@ -1,8 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { ChangeEvent, ChangeEventHandler } from 'react'
-import ValueChangeEventHandler, {
-  makeValueChangeEmitter,
-} from './ValueChangeEventHandler'
+import ValueChangeEventHandler from './ValueChangeEventHandler'
 import { NumericFormat } from 'react-number-format'
 import { NumberFormatValues } from 'react-number-format/types/types'
 
@@ -23,28 +20,13 @@ export type NumberInputProps = {
 }
 
 const NumericInput = (props: NumberInputProps) => {
-  const {
-    hideLabel,
-    readonly,
-    onValueChange,
-    value,
-    extraClassName,
-    name,
-    id,
-    label,
-    prefix,
-    suffix,
-  } = props
+  const { hideLabel, readonly, onValueChange, value, extraClassName, name, id, label, prefix, suffix } = props
 
   const unwrapNumericValueAndCallHandler = (change: NumberFormatValues) =>
     onValueChange && onValueChange({ name, value: change.floatValue })
 
   return (
-    <label
-      className={`${
-        extraClassName || ''
-      } inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}
-    >
+    <label className={`${extraClassName || ''} inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}>
       {hideLabel ? '' : label}
       <NumericFormat
         id={id || nanoid()}

@@ -1,8 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { ChangeEvent, ChangeEventHandler } from 'react'
-import ValueChangeEventHandler, {
-  makeValueChangeEmitter,
-} from './ValueChangeEventHandler'
+import ValueChangeEventHandler, { makeValueChangeEmitter } from './ValueChangeEventHandler'
 
 export type InputProps = {
   id?: any
@@ -19,24 +16,10 @@ export type InputProps = {
 }
 
 const Input = (props: InputProps) => {
-  const {
-    type,
-    hideLabel,
-    readonly,
-    onValueChange,
-    value,
-    extraClassName,
-    name,
-    id,
-    label,
-  } = props
+  const { type, hideLabel, readonly, onValueChange, value, extraClassName, name, id, label } = props
 
   return (
-    <label
-      className={`${
-        extraClassName || ''
-      } inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}
-    >
+    <label className={`${extraClassName || ''} inline-block w-full pt-1.5 pb-1.5 text-xs font-medium`}>
       {hideLabel ? '' : label}
       <input
         id={id || nanoid()}

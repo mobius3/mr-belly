@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { copyInvoice, InvoiceData } from "@/features/invoices/InvoiceData";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { copyInvoice, InvoiceData } from '@/features/invoices/InvoiceData'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAdd,
   faCopy,
@@ -10,17 +10,20 @@ import {
   faPrint,
   faRemove,
   faRotateLeft,
-  faWarning
-} from "@fortawesome/free-solid-svg-icons";
-import Button from "@/shared/parts/Button";
-import { Link, useNavigate } from "react-router-dom";
-import { faFaceSadTear } from "@fortawesome/free-regular-svg-icons";
-import { Formatter } from "@/shared/formatters";
-import { dateFormat } from "@/shared/date";
-import mrBellyInvoiceTemplate from "@/features/invoices/templates/mr-belly-invoice-template";
-import PageHeader from "@/shared/parts/PageHeader";
-import { invoiceRemoved, invoiceSaved } from "@/features/invoices/invoicesSlice";
-import { useMemo, useState } from 'r"react";mport { exportState } from '@"@/app/store";const InvoiceElement = (props: { invoice: InvoiceData }) => {
+  faWarning,
+} from '@fortawesome/free-solid-svg-icons'
+import Button from '@/shared/parts/Button'
+import { Link, useNavigate } from 'react-router-dom'
+import { faFaceSadTear } from '@fortawesome/free-regular-svg-icons'
+import { Formatter } from '@/shared/formatters'
+import { dateFormat } from '@/shared/date'
+import mrBellyInvoiceTemplate from '@/features/invoices/templates/mr-belly-invoice-template'
+import PageHeader from '@/shared/parts/PageHeader'
+import { invoiceRemoved, invoiceSaved } from '@/features/invoices/invoicesSlice'
+import { exportState } from '@/app/store'
+import { useMemo, useState } from 'react'
+
+const InvoiceElement = (props: { invoice: InvoiceData }) => {
   const { invoice } = props
   const [askIfSureToDelete, setAskIfSureToDelete] = useState(false)
 
@@ -143,31 +146,29 @@ const Invoices = () => {
       <span>
         No invoices yet <FontAwesomeIcon icon={faFaceSadTear}></FontAwesomeIcon>
       </span>
-      <Button onClick={() => navigate("invoices/new")}>Add invoice</Button>
+      <Button onClick={() => navigate('invoices/new')}>Add invoice</Button>
     </div>
   )
   if (invoices.length > 0) {
-    invoiceBlock = <ul className={"space-y-3"}>{invoiceElements}</ul>;
+    invoiceBlock = <ul className={'space-y-3'}>{invoiceElements}</ul>
   }
 
-  const exportInvoicesClicked = () => exportState();
-  const importInvoicesClicked = () => {
-  };
+  const exportInvoicesClicked = () => exportState()
+  const importInvoicesClicked = () => {}
 
   return (
-    <div className={"m-10 flex flex-col px-4"}>
+    <div className={'m-10 flex flex-col px-4'}>
       <PageHeader
         right={[
-          <Button className={"flex h-6 w-6 items-center justify-center rounded-full"}
-                  onClick={() => navigate("/invoices/new")}>
+          <Button className={'flex h-6 w-6 items-center justify-center rounded-full'} onClick={() => navigate('/invoices/new')}>
             <FontAwesomeIcon icon={faAdd} />
           </Button>,
-          <Button className={"flex h-6 w-6 items-center justify-center rounded-full"} onClick={exportInvoicesClicked}>
+          <Button className={'flex h-6 w-6 items-center justify-center rounded-full'} onClick={exportInvoicesClicked}>
             <FontAwesomeIcon icon={faFileExport} />
           </Button>,
-          <Button className={"flex h-6 w-6 items-center justify-center rounded-full"} onClick={importInvoicesClicked}>
+          <Button className={'flex h-6 w-6 items-center justify-center rounded-full'} onClick={importInvoicesClicked}>
             <FontAwesomeIcon icon={faFileImport} />
-          </Button>
+          </Button>,
         ]}
       >
         Invoices
