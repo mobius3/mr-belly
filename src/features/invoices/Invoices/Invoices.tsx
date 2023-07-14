@@ -20,7 +20,7 @@ import { dateFormat } from '@/shared/date'
 import mrBellyInvoiceTemplate from '@/features/invoices/templates/mr-belly-invoice-template'
 import PageHeader from '@/shared/parts/PageHeader'
 import { invoiceRemoved, invoiceSaved } from '@/features/invoices/invoicesSlice'
-import { exportState } from '@/app/store'
+import { exportState, importState } from '@/app/store'
 import { useMemo, useState } from 'react'
 
 const InvoiceElement = (props: { invoice: InvoiceData }) => {
@@ -154,7 +154,7 @@ const Invoices = () => {
   }
 
   const exportInvoicesClicked = () => exportState()
-  const importInvoicesClicked = () => {}
+  const importInvoicesClicked = () => importState()
 
   return (
     <div className={'m-10 flex flex-col px-4'}>
