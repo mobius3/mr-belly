@@ -26,9 +26,9 @@ const PageHeader = (props: {
   }
   return (
     <div className={'mx-3 flex border-b border-solid border-gray-300 py-3 font-bold'}>
-      <div className={'flex w-1/6 justify-start text-left'}>{...left}</div>
+      <div className={'flex w-1/6 justify-start gap-1 text-left'}>{...left}</div>
       <div className={'flex-grow justify-center text-center'}>{props.children}</div>
-      <div className={'flex w-1/6 justify-end text-right'}>{...right}</div>
+      <div className={'flex w-1/6 justify-end gap-1 text-right'}>{...right}</div>
     </div>
   )
 }
