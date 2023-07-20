@@ -23,9 +23,9 @@ const TextArea = (props: TextAreaProps) => {
         name={name}
         className={`
           block h-full w-full rounded border
-          border-transparent bg-gray-200 p-2
+          border-transparent bg-gray-100 p-2
           text-sm font-medium outline-none
-          transition-colors duration-200 focus:border-gray-400 focus:bg-gray-300
+          transition-colors duration-200 focus:border-gray-400 focus:bg-gray-200
         `}
         value={value}
         onChange={makeValueChangeEmitter(name, onValueChange)}

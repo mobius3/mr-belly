@@ -314,7 +314,7 @@ const InvoiceForm = () => {
               name={'discount'}
               value={paymentInformation.discount}
               onValueChange={(e) => setPaymentInformationField('discount', e.value)}
-              extraInputClassName={'bg-red-100 focus:border-red-300 focus:bg-red-200'}
+              extraInputClassName={'bg-red-100 focus:border-red-300 focus:bg-red-100'}
               locale={generalInformation.numberLocale}
             />
             <NumericInput

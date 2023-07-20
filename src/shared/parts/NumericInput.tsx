@@ -33,9 +33,9 @@ const NumericInput = (props: NumberInputProps) => {
         name={name}
         readOnly={readonly}
         className={`block h-10 w-full
-         rounded border border-transparent bg-gray-200
+         rounded border border-transparent bg-gray-100
           p-2 text-sm font-medium
-          outline-none transition-all duration-200 read-only:border-none focus:border-gray-400 focus:bg-gray-300 read-only:focus:bg-gray-200
+          outline-none transition-all duration-200 read-only:border-none focus:border-gray-400 focus:bg-gray-200 read-only:focus:bg-gray-100
         `}
         value={value}
         onValueChange={unwrapNumericValueAndCallHandler}
