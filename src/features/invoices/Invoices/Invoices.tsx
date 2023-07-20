@@ -70,9 +70,9 @@ const InvoiceElement = (props: { invoice: InvoiceData }) => {
     <li key={invoice.id} className={'h-30 flex flex-col rounded border border-gray-200 p-3 sm:flex-row'}>
       <div className={'flex flex-grow flex-col content-between gap-3'}>
         <div>
-          <span className={'font-bold'}>
+          <Link to={editUrl} className={'font-bold'}>
             {invoice.number}: From {invoice.sender.name} to {invoice.receiver.name}
-          </span>
+          </Link>
         </div>
         <ul className={'w-40 text-sm'}>
           <li>
