@@ -12,7 +12,7 @@ import { preferredCurrency } from '@/shared/currency'
 import NumericInput from '@/shared/parts/NumericInput'
 import Button from '@/shared/parts/Button'
 import { faSave } from '@fortawesome/free-regular-svg-icons'
-import { InvoiceData, InvoiceDataSchema } from '@/features/invoices/InvoiceData'
+import { InvoiceData, InvoiceDataSchema, printInvoice } from '@/features/invoices/InvoiceData'
 import { nanoid } from '@reduxjs/toolkit'
 import { invoiceSaved } from '@/features/invoices/invoicesSlice'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
@@ -180,6 +180,11 @@ const InvoiceForm = () => {
     navigate(-1)
   }
 
+  const saveAndPrintClicked = () => {
+    dispatch(invoiceSaved(invoiceData))
+    printInvoice(invoiceData)
+  }
+
   return (
     <form className={'m-10 block px-4'}>
       <PageHeader>Invoice</PageHeader>
@@ -235,7 +240,7 @@ const InvoiceForm = () => {
             onValueChange={(e) => setGeneralInformationField('includeSigningFields', e.value)}
             extraClassName={'lg:w-1/6'}
           >
-            <option value={'noigned-byne'}>None</option>
+            <option value={'none'}>None</option>
             <option value={'signed-by'}>Signed by</option>
             <option value={'signed-by-with-signature'}>Signed by with signature</option>
           </Select>
@@ -353,9 +358,9 @@ const InvoiceForm = () => {
               Save <FontAwesomeIcon icon={faSave} />
             </div>
           </Button>
-          <Button disabled={!valid}>
+          <Button disabled={!valid} onClick={saveAndPrintClicked}>
             <div className={'flex items-center justify-center gap-3'}>
-              Print <FontAwesomeIcon icon={faPrint} />
+              Save & Print <FontAwesomeIcon icon={faPrint} />
             </div>
           </Button>
         </div>
