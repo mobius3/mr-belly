@@ -185,14 +185,14 @@ const InvoiceForm = () => {
       <PageHeader>Invoice</PageHeader>
       <div className={'mb-5'}>
         {/*<h1 className={styles.header}>Invoice</h1>*/}
-        <div className={'gap-3 p-3 md:flex'}>
+        <div className={'gap-3 p-3 lg:flex'}>
           <Input
             label={'Number'}
             type={'text'}
             name={'number'}
             value={generalInformation.number}
             onValueChange={(e) => setGeneralInformationField('number', e.value)}
-            extraClassName={'md:w-1/6'}
+            extraClassName={'lg:w-1/6'}
           />
           <Input
             label={'Date'}
@@ -200,7 +200,7 @@ const InvoiceForm = () => {
             name={'date'}
             value={generalInformation.date}
             onValueChange={(e) => setGeneralInformationField('date', e.value)}
-            extraClassName={'md:w-1/6'}
+            extraClassName={'lg:w-1/6'}
           />
           <Input
             label={'Due'}
@@ -208,14 +208,14 @@ const InvoiceForm = () => {
             name={'due'}
             value={generalInformation.due}
             onValueChange={(e) => setGeneralInformationField('due', e.value)}
-            extraClassName={'md:w-1/6'}
+            extraClassName={'lg:w-1/6 xl:mr-3'}
           />
           <Select
             label={'Currency'}
             name={'currency'}
             value={generalInformation.currency}
             onValueChange={(e) => setGeneralInformationField('currency', e.value)}
-            extraClassName={'md:w-1/6'}
+            extraClassName={'lg:w-1/6 xl:ml-3'}
           >
             {...currencyOptions}
           </Select>
@@ -224,16 +224,16 @@ const InvoiceForm = () => {
             name={'number-format'}
             value={generalInformation.numberLocale}
             onValueChange={(e) => setGeneralInformationField('numberLocale', e.value)}
-            extraClassName={'md:w-1/6'}
+            extraClassName={'lg:w-1/6'}
           >
             {...numberLocaleOptions}
           </Select>
           <Select
-            label={'Include signature field'}
+            label={'Signature'}
             name={'include-signature-field'}
             value={generalInformation.includeSigningFields}
             onValueChange={(e) => setGeneralInformationField('includeSigningFields', e.value)}
-            extraClassName={'md:w-1/6'}
+            extraClassName={'lg:w-1/6'}
           >
             <option value={'noigned-byne'}>None</option>
             <option value={'signed-by'}>Signed by</option>
