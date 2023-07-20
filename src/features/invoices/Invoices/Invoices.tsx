@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { copyInvoice, InvoiceData } from '@/features/invoices/InvoiceData'
+import { copyInvoice, InvoiceData, printInvoice } from '@/features/invoices/InvoiceData'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAdd,
@@ -17,7 +17,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { faFaceSadTear } from '@fortawesome/free-regular-svg-icons'
 import { Formatter } from '@/shared/formatters'
 import { dateFormat } from '@/shared/date'
-import mrBellyInvoiceTemplate from '@/features/invoices/templates/mr-belly-invoice-template'
 import PageHeader from '@/shared/parts/PageHeader'
 import { invoiceRemoved, invoiceSaved } from '@/features/invoices/invoicesSlice'
 import { exportState, importState } from '@/app/store'
@@ -30,21 +29,9 @@ const InvoiceElement = (props: { invoice: InvoiceData }) => {
   const editUrl = `/invoices/${invoice.id}/edit`
 
   const dispatch = useAppDispatch()
-
-  const renderInvoiceClicked = async () => {
-    const data = mrBellyInvoiceTemplate(invoice)
-    const w = window.open()
-    if (!w) return
-    w.document.write(data)
-  }
-
-  const copyInvoiceClicked = async () => {
-    dispatch(invoiceSaved(copyInvoice(invoice)))
-  }
-
-  const removeInvoiceClicked = async () => {
-    dispatch(invoiceRemoved(invoice))
-  }
+  const renderInvoiceClicked = () => printInvoice(invoice)
+  const copyInvoiceClicked = () => dispatch(invoiceSaved(copyInvoice(invoice)))
+  const removeInvoiceClicked = () => dispatch(invoiceRemoved(invoice))
 
   const currencyFormatter = Formatter.currency(invoice.numberLocale, invoice.currency)
 

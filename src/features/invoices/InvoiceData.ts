@@ -3,6 +3,7 @@ import { isValid, parseISO } from 'date-fns'
 import { currencyIds, localeIds } from '@/shared/locale-data'
 import { nanoid } from '@reduxjs/toolkit'
 import formatISO from 'date-fns/formatISO'
+import mrBellyInvoiceTemplate from '@/features/invoices/templates/mr-belly-invoice-template'
 
 const InvoiceItemSchema = z.object({
   quantity: z.number().positive(),
@@ -53,4 +54,11 @@ const copy = (previous: InvoiceData): InvoiceData => {
   }
 }
 
-export { InvoiceDataSchema, type InvoiceData, copy as copyInvoice }
+const print = (invoice: InvoiceData) => {
+  const data = mrBellyInvoiceTemplate(invoice)
+  const w = window.open()
+  if (!w) return
+  w.document.write(data)
+}
+
+export { InvoiceDataSchema, type InvoiceData, copy as copyInvoice, print as printInvoice }

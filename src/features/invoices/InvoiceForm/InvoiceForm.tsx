@@ -201,7 +201,6 @@ const InvoiceForm = () => {
             value={generalInformation.date}
             onValueChange={(e) => setGeneralInformationField('date', e.value)}
             extraClassName={'md:w-1/6'}
-            // extraClassName={'md:pr-3'}
           />
           <Input
             label={'Due'}
@@ -210,8 +209,6 @@ const InvoiceForm = () => {
             value={generalInformation.due}
             onValueChange={(e) => setGeneralInformationField('due', e.value)}
             extraClassName={'md:w-1/6'}
-
-            // extraClassName={'md:pl-3'}
           />
           <Select
             label={'Currency'}
